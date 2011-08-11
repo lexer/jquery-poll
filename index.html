@@ -3,14 +3,20 @@
 <head>
   <meta charset="utf-8">	
 
-  <link rel="stylesheet" href="css/main.css">
   <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-  <script type="text/javascript" src="jquery-smart-poll.js"></script>
+  <script type="text/javascript" src="jquery-smart-pool.js"></script>
 
   
   <script type="text/javascript">
     $(function(){
+	var poller = $.poll(5000,function(poller) {
+	   console.log("Hello");
+           poller.next();
+	});
 
+        window.setTimeout(function(){
+          poller.stop();
+        }, 15000);
     });
   </script>
   

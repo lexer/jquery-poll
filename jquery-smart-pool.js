@@ -1,15 +1,24 @@
 (function($) {
-  $.poll = function(wait, poller) {
-    if ($.isFunction(wait)) {
-      poller = wait;
-      wait = 1000;
-    }
+  function Poller(wait, fn){
+    this.wait = wait;
+    this.fn = fn;
+  };
 
-    (function startPoller() {
-      setTimeout(function() {
-        poller.call(this, startPoller);
-      }, wait)
-      wait = wait * 1.5;
-    })()
-  }
+  Poller.prototype.stop = function() {
+    window.clearTimeout(this.timeout);
+  };
+
+  Poller.prototype.next = function() {
+    var self = this;
+    this.timeout = window.setTimeout(function(){
+	self.fn(self);
+    }, this.wait);
+  };
+  
+  $.poll = function(wait, fn){
+    var poller = new Poller(wait, fn);   
+    fn(poller);
+    return poller;
+  };
+
 })(jQuery);
