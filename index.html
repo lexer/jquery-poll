@@ -4,20 +4,22 @@
   <meta charset="utf-8">	
 
   <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-  <script type="text/javascript" src="jquery-smart-pool.js"></script>
+  <script type="text/javascript" src="jquery-pool.js"></script>
 
   
   <script type="text/javascript">
-    $(function(){
-	var poller = $.poll(5000,function(poller) {
-	   console.log("Hello");
-           poller.next();
-	});
+  $(function(){
+    var poller = $.poll(function(poller) {
+      console.log("start job");
+      window.setTimeout(function(){
+        console.log("job done");
+        poller.next();
+      }, 3000);
 
-        window.setTimeout(function(){
-          poller.stop();
-        }, 15000);
-    });
+    }, 3000);
+
+    //poller.stop() will stop polling
+  });  
   </script>
   
   <title>Jquery smart polling</title>
